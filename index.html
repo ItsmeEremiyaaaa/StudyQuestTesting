@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StudyQuest — Beta Feedback</title>
+<meta name="description" content="Send feedback straight to the StudyQuest dev during the beta test.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --orange: #E9935B;
+    --orange-dark: #D97F45;
+    --orange-light: #F5D6B8;
+    --cream: #FFF9F0;
+    --ink: #3B2E28;
+    --ink-soft: #9C8E80;
+    --gold: #F5A623;
+    --gold-light: #FEF3C7;
+    --white: #ffffff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* ---------- background atmosphere ---------- */
+  .bg-circle {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .bg-circle.c1 {
+    top: -120px; right: -120px;
+    width: 340px; height: 340px;
+    background: rgba(233, 147, 91, 0.10);
+  }
+  .bg-circle.c2 {
+    bottom: -180px; left: -180px;
+    width: 460px; height: 460px;
+    background: rgba(245, 166, 35, 0.07);
+  }
+  .bg-circle.c3 {
+    top: 40%; left: 50%;
+    width: 560px; height: 560px;
+    background: rgba(233, 147, 91, 0.04);
+    transform: translate(-50%, -50%);
+  }
+
+  /* ---------- layout shell ---------- */
+  .wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 32px 24px 80px;
+  }
+
+  /* ---------- header ---------- */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0 56px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .brand-mark {
+    width: 34px; height: 34px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--orange), var(--gold));
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Fredoka One', sans-serif;
+    color: white;
+    font-size: 16px;
+    box-shadow: 0 4px 12px rgba(233, 147, 91, 0.35);
+  }
+  .brand-name {
+    font-family: 'Fredoka One', sans-serif;
+    font-size: 18px;
+    letter-spacing: 0.3px;
+  }
+
+  .gh-link {
+    display: flex; align-items: center; gap: 8px;
+    text-decoration: none;
+    color: var(--ink);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 9px 16px;
+    border-radius: 999px;
+    border: 1.5px solid rgba(59, 46, 40, 0.12);
+    background: rgba(255,255,255,0.6);
+    transition: border-color 0.2s ease, transform 0.2s ease;
+  }
+  .gh-link:hover { border-color: var(--orange); transform: translateY(-1px); }
+  .gh-link:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+  .gh-link svg { width: 16px; height: 16px; }
+
+  /* ---------- hero ---------- */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--orange-dark);
+    background: var(--gold-light);
+    padding: 6px 12px;
+    border-radius: 999px;
+    margin-bottom: 20px;
+  }
+  .eyebrow .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--orange);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
+  }
+
+  h1 {
+    font-family: 'Fredoka One', sans-serif;
+    font-size: clamp(32px, 6vw, 46px);
+    line-height: 1.12;
+    letter-spacing: -0.5px;
+    margin-bottom: 16px;
+  }
+  h1 .accent { color: var(--orange-dark); }
+
+  .lede {
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    max-width: 52ch;
+    margin-bottom: 40px;
+  }
+  .lede strong { color: var(--ink); font-weight: 600; }
+
+  /* ---------- form card ---------- */
+  .card {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 32px;
+    box-shadow: 0 1px 2px rgba(59,46,40,0.04), 0 16px 40px rgba(59,46,40,0.08);
+    border: 1px solid rgba(59,46,40,0.06);
+    position: relative;
+  }
+
+  .field { margin-bottom: 20px; }
+  .field:last-of-type { margin-bottom: 0; }
+
+  label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+  }
+  .req { color: var(--orange); }
+
+  input, textarea, select {
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    color: var(--ink);
+    background: var(--cream);
+    border: 1.5px solid rgba(59,46,40,0.10);
+    border-radius: 12px;
+    padding: 13px 15px;
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+  textarea { resize: vertical; min-height: 120px; line-height: 1.5; }
+  input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--orange);
+    background: var(--white);
+  }
+  input:focus-visible, textarea:focus-visible, select:focus-visible {
+    outline: 2px solid var(--orange);
+    outline-offset: 1px;
+  }
+  ::placeholder { color: #c4b8a8; }
+
+  .row { display: flex; gap: 14px; flex-wrap: wrap; }
+  .row .field { flex: 1 1 200px; }
+
+  select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%239C8E80' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    padding-right: 40px;
+    cursor: pointer;
+  }
+
+  .submit-btn {
+    width: 100%;
+    margin-top: 28px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: white;
+    background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+    border: none;
+    border-radius: 14px;
+    padding: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 6px 16px rgba(233,147,91,0.35);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    position: relative;
+    overflow: visible;
+  }
+  .submit-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(233,147,91,0.42); }
+  .submit-btn:active { transform: translateY(0) scale(0.98); }
+  .submit-btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+  .submit-btn:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+
+  .submit-btn .spinner {
+    width: 16px; height: 16px;
+    border: 2px solid rgba(255,255,255,0.4);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    display: none;
+  }
+  .submit-btn.loading .spinner { display: inline-block; }
+  .submit-btn.loading .btn-label { opacity: 0.85; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* particle burst on success */
+  .burst {
+    position: absolute;
+    left: 50%; top: 50%;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  .hint {
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    margin-top: 14px;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  /* ---------- success state ---------- */
+  .success-state {
+    display: none;
+    text-align: center;
+    padding: 20px 8px 8px;
+  }
+  .success-state.show { display: block; animation: fadeUp 0.5s ease; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .stamp {
+    width: 64px; height: 64px;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold), var(--orange));
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 24px rgba(233,147,91,0.4);
+    animation: pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  @keyframes pop {
+    0% { transform: scale(0); }
+    70% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+  }
+  .stamp svg { width: 28px; height: 28px; }
+  .success-state h3 {
+    font-family: 'Fredoka One', sans-serif;
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+  .success-state p { color: var(--ink-soft); font-size: 14px; line-height: 1.6; }
+  .reset-btn {
+    margin-top: 20px;
+    background: none;
+    border: 1.5px solid rgba(59,46,40,0.14);
+    border-radius: 10px;
+    padding: 9px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+  .reset-btn:hover { border-color: var(--orange); color: var(--orange-dark); }
+
+  /* ---------- footer ---------- */
+  footer {
+    margin-top: 48px;
+    text-align: center;
+  }
+  .footer-line {
+    width: 40px; height: 2px;
+    background: var(--orange);
+    opacity: 0.3;
+    border-radius: 1px;
+    margin: 0 auto 16px;
+  }
+  footer p {
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+  footer a { color: var(--orange-dark); text-decoration: none; font-weight: 600; }
+  footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 480px) {
+    header { padding-bottom: 40px; }
+    .gh-link span { display: none; }
+    .card { padding: 24px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-circle c1"></div>
+<div class="bg-circle c2"></div>
+<div class="bg-circle c3"></div>
+
+<div class="wrap">
+
+  <header>
+    <div class="brand">
+      <div class="brand-mark">SQ</div>
+      <div class="brand-name">StudyQuest</div>
+    </div>
+    <a class="gh-link" href="https://github.com/ItsmeEremiyaaaa" target="_blank" rel="noopener">
+      <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+      <span>ItsmeEremiyaaaa</span>
+    </a>
+  </header>
+
+  <span class="eyebrow"><span class="dot"></span> Beta test — live now</span>
+
+  <h1>Found something?<br><span class="accent">Tell me directly.</span></h1>
+
+  <p class="lede">
+    You're testing StudyQuest before anyone else does. Bugs, ideas, things that
+    felt clunky — whatever you send here goes <strong>straight to my inbox</strong>,
+    no group chat, no getting lost in the scroll.
+  </p>
+
+  <div class="card">
+
+    <form id="feedback-form">
+      <div class="row">
+        <div class="field">
+          <label for="name">Name <span class="req">*</span></label>
+          <input type="text" id="name" name="name" placeholder="Your name" required>
+        </div>
+        <div class="field">
+          <label for="type">Type</label>
+          <select id="type" name="type">
+            <option value="Bug">🐛 Bug</option>
+            <option value="Suggestion" selected>💡 Suggestion</option>
+            <option value="Praise">🔥 It's actually good</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="email">Email <span style="color:var(--ink-soft); font-weight:500; text-transform:none; letter-spacing:0;">(optional — in case I need to follow up)</span></label>
+        <input type="email" id="email" name="email" placeholder="you@example.com">
+      </div>
+
+      <div class="field">
+        <label for="message">Your message <span class="req">*</span></label>
+        <textarea id="message" name="message" placeholder="What happened, or what would make this better?" required></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submit-btn">
+        <span class="spinner"></span>
+        <span class="btn-label">Send feedback</span>
+      </button>
+
+      <p class="hint">Sent directly to escubidojeremiah@smcbi.edu.ph — thanks for testing</p>
+    </form>
+
+    <div class="success-state" id="success-state">
+      <div class="stamp">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
+      <h3>Got it — thank you!</h3>
+      <p>Your feedback just landed in my inbox. Appreciate you taking the time to test this out.</p>
+      <button class="reset-btn" id="reset-btn" type="button">Send another</button>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="footer-line"></div>
+    <p>
+      Built by Jeremiah Escubido · <a href="https://github.com/ItsmeEremiyaaaa" target="_blank" rel="noopener">GitHub</a><br>
+      Questions? <a href="mailto:escubidojeremiah@smcbi.edu.ph">escubidojeremiah@smcbi.edu.ph</a>
+    </p>
+  </footer>
+
+</div>
+
+<script>
+  // =====================================================================
+  // FORMSPREE SETUP — do this once, takes ~2 minutes:
+  // 1. Go to https://formspree.io and sign up free
+  // 2. Create a new form, set its destination email to
+  //    escubidojeremiah@smcbi.edu.ph, and verify that email if asked
+  // 3. Copy the endpoint it gives you (looks like https://formspree.io/f/xxxxxxx)
+  // 4. Paste it below, replacing YOUR_FORM_ID
+  // =====================================================================
+  const FORMSPREE_ENDPOINT = "https://formspree.io/f/YOUR_FORM_ID";
+
+  const form = document.getElementById('feedback-form');
+  const btn = document.getElementById('submit-btn');
+  const successState = document.getElementById('success-state');
+  const resetBtn = document.getElementById('reset-btn');
+
+  function burstParticles() {
+    const colors = ['#E9935B', '#F5A623', '#D97F45', '#FEF3C7'];
+    for (let i = 0; i < 14; i++) {
+      const p = document.createElement('span');
+      p.className = 'burst';
+      const angle = (Math.PI * 2 * i) / 14 + Math.random() * 0.4;
+      const dist = 60 + Math.random() * 50;
+      const dx = Math.cos(angle) * dist;
+      const dy = Math.sin(angle) * dist;
+      p.style.background = colors[i % colors.length];
+      btn.appendChild(p);
+      p.animate([
+        { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
+        { transform: `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) scale(0)`, opacity: 0 }
+      ], { duration: 650 + Math.random() * 300, easing: 'cubic-bezier(.2,.7,.3,1)' });
+      setTimeout(() => p.remove(), 1000);
+    }
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (FORMSPREE_ENDPOINT.includes('YOUR_FORM_ID')) {
+      alert('Setup needed: paste your Formspree endpoint into the FORMSPREE_ENDPOINT constant near the bottom of this file. See the comment above it for steps.');
+      return;
+    }
+
+    btn.classList.add('loading');
+    btn.disabled = true;
+
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: new FormData(form)
+      });
+
+      if (res.ok) {
+        burstParticles();
+        setTimeout(() => {
+          form.style.display = 'none';
+          successState.classList.add('show');
+        }, 300);
+      } else {
+        throw new Error('Request failed');
+      }
+    } catch (err) {
+      alert("Hmm, that didn't send. Mind trying again, or emailing escubidojeremiah@smcbi.edu.ph directly?");
+      btn.classList.remove('loading');
+      btn.disabled = false;
+    }
+  });
+
+  resetBtn.addEventListener('click', () => {
+    form.reset();
+    form.style.display = 'block';
+    successState.classList.remove('show');
+    btn.classList.remove('loading');
+    btn.disabled = false;
+  });
+</script>
+
+</body>
+</html>
